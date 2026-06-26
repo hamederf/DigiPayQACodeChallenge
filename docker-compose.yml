@@ -1,22 +1,43 @@
 version: "3.9"
 
+# ── Shared config ─────────────────────────────────────────────────────────────
+x-common-env: &common-env
+  BASE_URL:                 ${BASE_URL:-https://app.mydigipay.com}
+  DIGIPAY_PHONE:            ${DIGIPAY_PHONE}
+  DIGIPAY_OTP:              ${DIGIPAY_OTP}
+  CHARGE_PHONE_IRANCELL:    ${CHARGE_PHONE_IRANCELL}
+  CHARGE_PHONE_HAMRAHAVVAL: ${CHARGE_PHONE_HAMRAHAVVAL}
+  HEADLESS:                 ${HEADLESS:-true}
+  BROWSER:                  ${BROWSER:-chromium}
+  SLOW_MO:                  ${SLOW_MO:-0}
+
 services:
+
+  # ── CI / one-shot run (با build) ───────────────────────────────────────────
   tests:
     build: .
-    environment:
-      - BASE_URL=${BASE_URL:-https://app.mydigipay.com}
-      - DIGIPAY_PHONE=${DIGIPAY_PHONE}
-      - DIGIPAY_OTP=${DIGIPAY_OTP}
-      - CHARGE_PHONE_IRANCELL=${CHARGE_PHONE_IRANCELL}
-      - CHARGE_PHONE_HAMRAHAVVAL=${CHARGE_PHONE_HAMRAHAVVAL}
-      - HEADLESS=true
-      - BROWSER=chromium
+    environment: *common-env
     volumes:
-      - ./reports:/app/reports   # reports are written to host machine
+      - ./reports:/app/reports
     command: >
       robot
-        --outputdir reports
-        --loglevel INFO
-        --report  report.html
-        --log     log.html
+        --outputdir  reports
+        --pythonpath /app
+        --loglevel   INFO
+        --report     report.html
+        --log        log.html
+        tests/
+
+  # ── Dev mode: کد رو mount می‌کنه، نیازی به rebuild نیست ──────────────────
+  dev:
+    build: .
+    environment: *common-env
+    volumes:
+      - .:/app               # کل پروژه mount میشه → هر تغییری فوری اعمال میشه
+      - ./reports:/app/reports
+    command: >
+      robot
+        --outputdir  reports
+        --pythonpath /app
+        --loglevel   INFO
         tests/
