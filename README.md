@@ -120,6 +120,38 @@ For CI, add these as [GitHub Secrets](https://docs.github.com/en/actions/securit
 
 ---
 
+## OTP Handling Strategy
+
+سایت دیجی‌پی از OTP پیامکی استفاده می‌کنه. سه حالت پشتیبانی می‌شه:
+
+| Mode | توضیح | متغیر |
+|---|---|---|
+| `static` | برای test account با OTP ثابت (پیش‌فرض) | `OTP_MODE=static` |
+| `adb` | خواندن خودکار SMS از گوشی Android از طریق ADB | `OTP_MODE=adb` |
+
+### اجرا با ADB
+
+```bash
+# ۱. USB Debugging رو روی گوشی فعال کن
+# Settings → About Phone → Build Number (7 بار) → Developer Options → USB Debugging
+
+# ۲. گوشی رو با USB وصل کن و تست کن
+adb devices
+
+# ۳. تست رو با ADB mode اجرا کن
+OTP_MODE=adb docker-compose run --rm dev
+```
+
+### اجرا با OTP ثابت
+
+```bash
+# در فایل .env بذار:
+OTP_MODE=static
+DIGIPAY_OTP=123456
+
+docker-compose run --rm dev
+```
+
 ## Running the Tests
 
 ### Run all tests
