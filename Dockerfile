@@ -38,7 +38,4 @@ RUN mkdir -p reports/screenshots
 
 # ── Runtime ────────────────────────────────────────────────────────────────
 # Default: run all tests headless, generate HTML + XML reports
-CMD ["robot", \
-     "--outputdir", "reports", \
-     "--loglevel", "INFO", \
-     "tests/"]
+CMD ["robot","--outputdir","reports","--pythonpath","/app","--loglevel","INFO","tests/"]
