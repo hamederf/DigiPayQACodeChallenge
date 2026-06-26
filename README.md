@@ -80,7 +80,7 @@ DigiPayQACodeChallenge/
 
 ```bash
 # 1. Clone the repo
-git https://github.com/hamederf/DigiPayQACodeChallenge.git
+git clone https://github.com/hamederf/DigiPayQACodeChallenge.git
 cd DigiPayQACodeChallenge
 
 # 2. (Recommended) Create a virtual environment
@@ -125,35 +125,35 @@ For CI, add these as [GitHub Secrets](https://docs.github.com/en/actions/securit
 ### Run all tests
 
 ```bash
-robot --outputdir reports tests/
+robot --outputdir reports --pythonpath . tests/
 ```
 
 ### Run only login tests
 
 ```bash
-robot --outputdir reports tests/login.robot
+robot --outputdir reports --pythonpath . tests/login.robot
 ```
 
 ### Run only charge tests
 
 ```bash
-robot --outputdir reports tests/charge.robot
+robot --outputdir reports --pythonpath . tests/charge.robot
 ```
 
 ### Run by tag
 
 ```bash
 # Smoke tests only
-robot --outputdir reports --include smoke tests/
+robot --outputdir reports --pythonpath . --include smoke tests/
 
 # Negative scenarios
-robot --outputdir reports --include negative tests/
+robot --outputdir reports --pythonpath . --include negative tests/
 ```
 
 ### Run with visible browser (debug mode)
 
 ```bash
-HEADLESS=false SLOW_MO=500 robot --outputdir reports tests/
+HEADLESS=false SLOW_MO=500 robot --outputdir reports --pythonpath . tests/
 ```
 
 ### View the HTML report
@@ -164,19 +164,30 @@ After a run, open `reports/report.html` in your browser.
 
 ## Docker
 
-### Build and run with Docker Compose
+### Dev mode — بدون rebuild (برای توسعه روزمره)
 
 ```bash
-# Copy and fill in credentials
-cp .env.example .env
+# فقط یک بار
+docker-compose build dev
 
-# Build image and run all tests
-docker-compose up --build
+# هر بار برای اجرای تست‌ها
+docker-compose run --rm dev
 
-# Reports are written to ./reports/ on the host machine
+# اجرای یک فایل خاص
+docker-compose run --rm dev robot --outputdir reports --pythonpath /app tests/login.robot
+
+# اجرا با browser visible
+HEADLESS=false docker-compose run --rm dev robot --outputdir reports --pythonpath /app tests/
 ```
 
-### Build and run manually
+### CI mode — با build (برای pipeline)
+
+```bash
+cp .env.example .env   # و credentials واقعی رو پر کن
+docker-compose up --build tests
+```
+
+### Build و run دستی
 
 ```bash
 docker build -t digipayqacodechallenge .
@@ -187,7 +198,7 @@ docker run --rm \
   -e CHARGE_PHONE_IRANCELL=09120000001 \
   -e CHARGE_PHONE_HAMRAHAVVAL=09910000001 \
   -v "$(pwd)/reports:/app/reports" \
-  DigiPayQACodeChallenge
+  digipayqacodechallenge
 ```
 
 ---
