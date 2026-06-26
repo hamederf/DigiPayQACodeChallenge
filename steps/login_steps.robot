@@ -18,7 +18,7 @@ Open DigiPay Application
 
 Close DigiPay Application
     [Documentation]    Capture final screenshot and close all browser contexts.
-    Run Keyword If Test Failed    Take Screenshot    filename=reports/screenshots/failure-{index}.png
+    Take Screenshot    filename=reports/screenshots/final-state.png
     Close Browser
 
 # ── Phone Number Step ────────────────────────────────────────────────────────
