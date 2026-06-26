@@ -38,7 +38,7 @@ Built with **Robot Framework** + **robotframework-browser (Playwright)** followi
 ## Project Structure
 
 ```
-digipay-qa/
+DigiPayQACodeChallenge/
 ├── tests/
 │   ├── login.robot          # Login feature (TC-LOGIN-01, TC-LOGIN-02)
 │   └── charge.robot         # Charge purchase feature (TC-CHARGE-01, TC-CHARGE-02)
@@ -80,8 +80,8 @@ digipay-qa/
 
 ```bash
 # 1. Clone the repo
-git clone https://github.com/<your-org>/digipay-qa.git
-cd digipay-qa
+git https://github.com/hamederf/DigiPayQACodeChallenge.git
+cd DigiPayQACodeChallenge
 
 # 2. (Recommended) Create a virtual environment
 python -m venv .venv
@@ -179,7 +179,7 @@ docker-compose up --build
 ### Build and run manually
 
 ```bash
-docker build -t digipay-qa .
+docker build -t DigiPayQACodeChallenge .
 
 docker run --rm \
   -e DIGIPAY_PHONE=09120000000 \
@@ -187,7 +187,7 @@ docker run --rm \
   -e CHARGE_PHONE_IRANCELL=09120000001 \
   -e CHARGE_PHONE_HAMRAHAVVAL=09910000001 \
   -v "$(pwd)/reports:/app/reports" \
-  digipay-qa
+  DigiPayQACodeChallenge
 ```
 
 ---
