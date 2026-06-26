@@ -1,0 +1,22 @@
+version: "3.9"
+
+services:
+  tests:
+    build: .
+    environment:
+      - BASE_URL=${BASE_URL:-https://app.mydigipay.com}
+      - DIGIPAY_PHONE=${DIGIPAY_PHONE}
+      - DIGIPAY_OTP=${DIGIPAY_OTP}
+      - CHARGE_PHONE_IRANCELL=${CHARGE_PHONE_IRANCELL}
+      - CHARGE_PHONE_HAMRAHAVVAL=${CHARGE_PHONE_HAMRAHAVVAL}
+      - HEADLESS=true
+      - BROWSER=chromium
+    volumes:
+      - ./reports:/app/reports   # reports are written to host machine
+    command: >
+      robot
+        --outputdir reports
+        --loglevel INFO
+        --report  report.html
+        --log     log.html
+        tests/
