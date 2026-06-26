@@ -9,8 +9,8 @@ Metadata            Author       DigiPay QA Suite
 Metadata            Version      1.0.0
 
 Library             Browser
-Resource            steps/login_steps.robot
-Resource            steps/selectors.robot
+Resource            ${CURDIR}/../steps/login_steps.robot
+Resource            ${CURDIR}/../steps/selectors.robot
 Variables           variables.py
 
 Suite Setup         Open DigiPay Application
