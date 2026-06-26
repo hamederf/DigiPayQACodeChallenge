@@ -179,7 +179,7 @@ docker-compose up --build
 ### Build and run manually
 
 ```bash
-docker build -t DigiPayQACodeChallenge .
+docker build -t digipayqacodechallenge .
 
 docker run --rm \
   -e DIGIPAY_PHONE=09120000000 \
